@@ -7,8 +7,13 @@ def adiciona(lista, produtos):
 
 
 def pegaPreco():
-    precoProd = wbD.find_elements_by_xpath('//*[@id="maincontent"]/div[2]/div/div[1]/div[2]/div[2]/span[2]/span')[
-        0].text
+    try:
+        wbD.find_element_by_css_selector(
+            "#maincontent > div.columns > div > div.product-info-main > div.product-info-price > div.product-info-stock-sku > div.stock.available")
+        precoProd = wbD.find_elements_by_xpath('//*[@id="maincontent"]/div[2]/div/div[1]/div[2]/div[2]/span[2]/span')[
+            0].text
+    except:
+        precoProd = "Indisponível"
     return precoProd
 
 
@@ -21,10 +26,9 @@ def novoLink(link):
     wbD.get(link)
     time.sleep(3)
 
-link = "https://www.pichau.com.br/hardware/placa-de-video"
 
 wbD = wb.Chrome('chromedriver.exe')
-wbD.get(link)
+wbD.get('https://www.pichau.com.br/hardware/placa-de-video')
 listaDeFiltro = []
 listaDeLinks = []
 preco = []
@@ -38,12 +42,8 @@ listaPichau = ['#narrow-by-list > dd:nth-child(2) > form > ol > li:nth-child(5) 
                '#narrow-by-list > dd:nth-child(2) > form > ol > li:nth-child(51) > a',
                '#narrow-by-list > dd:nth-child(2) > form > ol > li:nth-child(53) > a']
 time.sleep(3)
-
 produtoInfoLista = wbD.find_elements_by_xpath('//div[@class="product details product-item-details"]')[0]
 wbD.find_elements_by_xpath('//div/select[@id="sorter"]/option')[2].click()
-teste = wbD.find_element_by_css_selector(
-    '#narrow-by-list > dd:nth-child(2) > form > ol > li:nth-child(8) > a').get_attribute('href')
-print(teste)
 time.sleep(5)
 
 for i in (listaPichau):
