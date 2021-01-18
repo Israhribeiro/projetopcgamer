@@ -21,9 +21,10 @@ def novoLink(link):
     wbD.get(link)
     time.sleep(3)
 
+link = "https://www.pichau.com.br/hardware/placa-de-video"
 
 wbD = wb.Chrome('chromedriver.exe')
-wbD.get('https://www.pichau.com.br/hardware/placa-de-video')
+wbD.get(link)
 listaDeFiltro = []
 listaDeLinks = []
 preco = []
