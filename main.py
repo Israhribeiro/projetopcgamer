@@ -12,9 +12,17 @@ def pegaPreco():
             "#maincontent > div.columns > div > div.product-info-main > div.product-info-price > div.product-info-stock-sku > div.stock.available")
         precoProd = wbD.find_elements_by_xpath('//*[@id="maincontent"]/div[2]/div/div[1]/div[2]/div[2]/span[2]/span')[
             0].text
+
+        preco = ""
+        for i in precoProd:
+            if i.isdigit():
+                preco += i
+            if i == ",":
+                preco += "."
+
     except:
-        precoProd = "Indisponível"
-    return precoProd
+        preco = "Indisponível"
+    return preco
 
 
 def pegaProduto(selector):
@@ -32,22 +40,14 @@ wbD.get('https://www.pichau.com.br/hardware/placa-de-video')
 listaDeFiltro = []
 listaDeLinks = []
 preco = []
-listaPichau = ['#narrow-by-list > dd:nth-child(2) > form > ol > li:nth-child(5) > a',
-               '#narrow-by-list > dd:nth-child(2) > form > ol > li:nth-child(11) > a',
-               '#narrow-by-list > dd:nth-child(2) > form > ol > li:nth-child(12) > a',
-               '#narrow-by-list > dd:nth-child(2) > form > ol > li:nth-child(13) > a',
-               '#narrow-by-list > dd:nth-child(2) > form > ol > li:nth-child(14) > a',
-               '#narrow-by-list > dd:nth-child(2) > form > ol > li:nth-child(41) > a',
-               '#narrow-by-list > dd:nth-child(2) > form > ol > li:nth-child(45) > a',
-               '#narrow-by-list > dd:nth-child(2) > form > ol > li:nth-child(51) > a',
-               '#narrow-by-list > dd:nth-child(2) > form > ol > li:nth-child(53) > a']
+listaPichau = [5,11,12,13,14,41,45,51,53]
 time.sleep(3)
 produtoInfoLista = wbD.find_elements_by_xpath('//div[@class="product details product-item-details"]')[0]
 wbD.find_elements_by_xpath('//div/select[@id="sorter"]/option')[2].click()
 time.sleep(5)
 
 for i in (listaPichau):
-    adiciona(listaDeFiltro, pegaProduto(i))
+    adiciona(listaDeFiltro, pegaProduto(f'#narrow-by-list > dd:nth-child(2) > form > ol > li:nth-child({i}) > a'))
 
 for i in (listaDeFiltro):
     novoLink(i)
